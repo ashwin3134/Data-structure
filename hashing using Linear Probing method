@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define TABLE_SIZE 10
+struct HashTable {
+    int keys[TABLE_SIZE];
+    int values[TABLE_SIZE];
+};
+void initHashTable(struct HashTable* table) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        table->keys[i] = -1;
+        table->values[i] = -1;
+    }
+}
+int hash(int key) {
+    return key % TABLE_SIZE;
+}
+void insert(struct HashTable* table, int key, int value) {
+    int index = hash(key);
+    while (table->keys[index] != -1) {
+        index = (index + 1) % TABLE_SIZE;
+    }
+    table->keys[index] = key;
+    table->values[index] = value;
+}
+int search(struct HashTable* table, int key) {
+    int index = hash(key);
+    while (table->keys[index] != -1) {
+        if (table->keys[index] == key)
+            return table->values[index];
+        index = (index + 1) % TABLE_SIZE;
+    }
+    return -1; 
+}
+int main() {
+    struct HashTable table;
+    initHashTable(&table);
+    insert(&table, 5, 50);
+    insert(&table, 15, 150);
+    insert(&table, 25, 250);
+    int keyToSearch = 15;
+    int value = search(&table, keyToSearch);
+    if (value != -1)
+        printf("Value for key %d: %d\n", keyToSearch, value);
+    else
+        printf("Key %d not found.\n", keyToSearch);
+    return 0;
+}
