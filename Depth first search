@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+void dfs(int adjacencyMatrix[][100], int vertices, int currentVertex, int visited[]) {
+    printf("%d ", currentVertex);
+    visited[currentVertex] = 1;
+    for (int i = 0; i < vertices; i++) {
+        if (adjacencyMatrix[currentVertex][i] && !visited[i]) {
+            dfs(adjacencyMatrix, vertices, i, visited);
+        }
+    }
+}
+int main() {
+    int vertices;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &vertices);
+    int adjacencyMatrix[100][100];
+    printf("Enter the adjacency matrix:\n");
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            scanf("%d", &adjacencyMatrix[i][j]);
+        }
+    }
+    int startVertex;
+    printf("Enter the starting vertex: ");
+    scanf("%d", &startVertex);
+    int visited[vertices];
+    for (int i = 0; i < vertices; i++)
+        visited[i] = 0;
+    printf("Depth-First Traversal starting from vertex %d: ", startVertex);
+    dfs(adjacencyMatrix, vertices, startVertex, visited);
+    return 0;
+}
